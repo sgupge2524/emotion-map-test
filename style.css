@@ -453,20 +453,71 @@
 
         }
 
+/* --- モバイル・スマホ専用の調整 --- */
 @media (max-width: 768px) {
-    /* 検索バーを少し上に上げる、または幅を広げる */
+    /* 1. 検索バーを画面上部に固定し、幅を最適化 */
     #search-bar {
-        width: 95%;
         top: 10px;
+        width: 90%;
+        max-width: 400px;
+        padding: 5px 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
     
-    /* 感情ボタンを少し大きくしてタップしやすくする */
-    .emotion-btn {
-        padding: 15px; 
+    #search-input {
+        width: 100%; /* 入力欄を広げる */
+        font-size: 16px; /* 入力時にズームされないサイズ */
     }
 
-    /* 地図上のコントロールがパネルに隠れないよう調整 */
-    .leaflet-top.leaflet-left {
-        margin-top: 70px;
+    /* 2. 感情パネルを「下部」に移動して、横並びにする */
+    .emotion-panel {
+        top: auto;
+        bottom: 20px; /* 画面下から20pxの位置 */
+        right: 50%;
+        transform: translateX(50%); /* 中央寄せ */
+        width: 95%;
+        max-width: 500px;
+        padding: 10px;
+        display: flex; /* 縦並びから横並びへ */
+        flex-wrap: nowrap; /* 折り返さない */
+        overflow-x: auto; /* ボタンが多い場合は横スクロール */
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.9); /* 少し透けさせる */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .emotion-panel h3 {
+        display: none; /* 「感情を選択」という文字を消してスペース確保 */
+    }
+
+    /* 3. ボタンをコンパクトなアイコン形式に */
+    .emotion-btn {
+        flex: 0 0 auto; /* 横幅を固定しない */
+        width: 70px; /* ボタンを小さく */
+        margin: 0;
+        padding: 8px 5px;
+        display: flex;
+        flex-direction: column; /* アイコンと文字を縦に */
+        align-items: center;
+        font-size: 11px;
+    }
+
+    .emotion-icon {
+        font-size: 20px;
+        margin-right: 0;
+        margin-bottom: 2px;
+    }
+
+    /* 4. 左下のパネル類（もしあれば）を整理 */
+    .left-panels {
+        bottom: 110px; /* 感情パネルに被らないよう上に避ける */
+        left: 10px;
+        max-width: 150px;
+    }
+
+    /* 5. 地図のズームボタンを少し上に移動（パネルとの重なり防止） */
+    .leaflet-bottom.leaflet-left {
+        bottom: 110px;
     }
 }
+
