@@ -452,6 +452,15 @@
             font-size: 14px;
 
         }
+/* --- 不要なパネルを非表示にする --- */
+.left-panels, 
+.info-panel, 
+.emotion-panel h3,
+#filter-controls,
+.how-to-use-panel { /* 使い方パネル等のクラス名に合わせて調整 */
+    display: none !important;
+}
+
 /* --- スマホ専用の極小・最適化レイアウト --- */
 @media (max-width: 768px) {
     /* 1. 検索バーをさらにスリムに */
@@ -518,6 +527,3 @@
         display: none !important;
     }
 }
-
-
-
