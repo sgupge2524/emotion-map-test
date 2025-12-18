@@ -450,4 +450,23 @@
             color: #333;
             cursor: pointer;
             font-size: 14px;
+
         }
+
+@media (max-width: 768px) {
+    /* 検索バーを少し上に上げる、または幅を広げる */
+    #search-bar {
+        width: 95%;
+        top: 10px;
+    }
+    
+    /* 感情ボタンを少し大きくしてタップしやすくする */
+    .emotion-btn {
+        padding: 15px; 
+    }
+
+    /* 地図上のコントロールがパネルに隠れないよう調整 */
+    .leaflet-top.leaflet-left {
+        margin-top: 70px;
+    }
+}
