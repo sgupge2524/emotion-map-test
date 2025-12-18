@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>感情マップ - 完全無料版 (Firebase連携版)</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+
+
+
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <!-- 感情選択パネル -->
+    <div class="emotion-panel">
+        <h3>💭 感情を選択</h3>
+        <button class="emotion-btn" style="background: #FFE082;" data-emotion="happy">
+            <span class="emotion-icon">🥰</span>
+            <span>嬉しい</span>
+        </button>
+        <button class="emotion-btn" style="background: #B3E5FC;" data-emotion="peaceful">
+            <span class="emotion-icon">😌</span>
+            <span>穏やか</span>
+        </button>
+        <button class="emotion-btn" style="background: #FFAB91;" data-emotion="excited">
+            <span class="emotion-icon">🤩</span>
+            <span>興奮</span>
+        </button>
+        <button class="emotion-btn" style="background: #A5D6A7;" data-emotion="nostalgic">
+            <span class="emotion-icon">🥺</span>
+            <span>懐かしい</span>
+        </button>
+        <button class="emotion-btn" style="background: #CE93D8;" data-emotion="romantic">
+            <span class="emotion-icon">💕</span>
+            <span>ロマンチック</span>
+        </button>
+        <button class="emotion-btn" style="background: #FFCCBC;" data-emotion="delicious">
+            <span class="emotion-icon">😋</span>
+            <span>美味しい</span>
+        </button>
+    </div>
+
+    <!-- 🔍 検索バー -->
+    <div id="search-bar">
+        <input type="text" id="search-input" placeholder="場所を検索（例：東京駅）">
+        <button id="search-btn">検索</button>
+        <button id="locate-btn">現在地へ</button>
+    </div>
+
+
+
+
+    <div class="left-panels">
+        <!-- 凡例 -->
+        <div class="legend">
+            <h4>📊 感情の分布</h4>
+            <div id="legend-content"></div>
+        </div>
+
+        <!-- フィルターパネル -->
+        <div class="filter-panel">
+            <h4>🔍 表示フィルター</h4>
+            <div class="filter-group">
+                <label for="filter-emotion">感情</label>
+                <select id="filter-emotion">
+                    <option value="all">すべて</option>
+                    <option value="happy">嬉しい</option>
+                    <option value="peaceful">穏やか</option>
+                    <option value="excited">興奮</option>
+                    <option value="nostalgic">懐かしい</option>
+                    <option value="romantic">ロマンチック</option>
+                    <option value="delicious">美味しい</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-scene">誰と</label>
+                <select id="filter-scene">
+                    <option value="all">すべて</option>
+                    <option value="alone">一人で</option>
+                    <option value="friends">友達と</option>
+                    <option value="family">家族と</option>
+                    <option value="partner">恋人と</option>
+                    <option value="others">その他</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-time">時間帯</label>
+                <select id="filter-time">
+                    <option value="all">すべて</option>
+                    <option value="morning">朝</option>
+                    <option value="day">昼</option>
+                    <option value="evening">夕方</option>
+                    <option value="night">夜</option>
+                    <option value="midnight">深夜</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使い方パネル -->
+    <div class="info-panel">
+        <h4>📖 使い方</h4>
+        <ol>
+            <li>右上から感情を選択</li>
+            <li>地図上の場所をクリック</li>
+            <li>フォームに記入して登録</li>
+        </ol>
+        <div class="status">
+            <span class="status-indicator"></span>
+            <span id="status">準備完了</span>
+        </div>
+    </div>
+
+    <!-- 登録用モーダル -->
+    <div id="entry-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="modal-emoji" class="modal-header-emoji">😊</span>
+                <div>
+                    <div id="modal-title" class="modal-header-title">感情を記録する</div>
+                    <div style="font-size: 12px; color:#777;">そのときの自分を、少しだけ言葉にしてみよう。</div>
+                </div>
+            </div>
+            <form id="entry-form">
+                <div class="modal-body">
+                    <label for="modal-place">場所の名前（例：〇〇公園のベンチ）</label>
+                    <input id="modal-place" type="text" placeholder="あとから見返したときに、自分が思い出せる名前でOK">
+
+                    <label for="modal-scene">誰といましたか？</label>
+                    <select id="modal-scene">
+                        <option value="">選ばない</option>
+                        <option value="alone">一人で</option>
+                        <option value="friends">友達と</option>
+                        <option value="family">家族と</option>
+                        <option value="partner">恋人と</option>
+                        <option value="others">その他</option>
+                    </select>
+
+                    <label for="modal-timeSlot">時間帯</label>
+                    <select id="modal-timeSlot">
+                        <option value="">選ばない</option>
+                        <option value="morning">朝</option>
+                        <option value="day">昼</option>
+                        <option value="evening">夕方</option>
+                        <option value="night">夜</option>
+                        <option value="midnight">深夜</option>
+                    </select>
+
+                    <label for="modal-publicComment">みんなに共有するひとこと（公開）</label>
+                    <textarea id="modal-publicComment" placeholder="この場所でどんな体験をしましたか？" required></textarea>
+
+                    <label for="modal-privateNote">秘密のメモ 🔐 <br>（ユーザーが半径500m以内に入るとメモが公開されます）</label>
+                    <textarea id="modal-privateNote" placeholder="今の自分にタイトルをつけると？どんな気づきがあった？（空白でもOK）"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancel" id="modal-cancel">キャンセル</button>
+                    <button type="submit" class="btn btn-submit">この感情を残す</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Firebase SDK (バージョン12.5.0) -->
+    <script src="https://www.gstatic.com/firebasejs/12.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>感情マップ - ウェルカム</title>
+    <link rel="stylesheet" href="welcome-style.css">
+</head>
+
+<body>
+    <!-- ウェルカムスクリーン -->
+    <div id="welcome-screen" class="welcome-screen">
+        <div class="welcome-content">
+            <!-- アプリアイコン/タイトル -->
+            <div class="app-icon">
+                <div class="icon-circle">
+                    <span class="emoji-rotate">💭</span>
+                    <span class="emoji-rotate" style="animation-delay: 0.3s;">❤️</span>
+                    <span class="emoji-rotate" style="animation-delay: 0.6s;">✨</span>
+                </div>
+            </div>
+
+            <h1 class="app-title">感情マップ</h1>
+            <p class="app-subtitle">あなたの心が動いた場所を、地図に残そう</p>
+
+            <!-- 説明セクション -->
+            <div class="description">
+                <p class="description-text">
+                    嬉しかった場所、穏やかだった瞬間、<br>
+                    心が動いた全ての思い出を地図に記録。<br>
+                    <br>
+                    あなただけの感情の地図を作りましょう。
+                </p>
+            </div>
+
+            <!-- 特徴カード -->
+            <div class="features">
+                <div class="feature-card">
+                    <span class="feature-icon">📍</span>
+                    <div class="feature-text">
+                        <strong>場所に感情を</strong>
+                        <small>地図をクリックして感情を記録</small>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">🔒</span>
+                    <div class="feature-text">
+                        <strong>秘密のメモ</strong>
+                        <small>500m以内で見える非公開メッセージ</small>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">🌈</span>
+                    <div class="feature-text">
+                        <strong>6つの感情</strong>
+                        <small>嬉しい、穏やか、興奮、懐かしい…</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 使い方 -->
+            <div class="how-to">
+                <h3>📖 使い方はシンプル</h3>
+                <ol class="steps">
+                    <li><strong>感情を選ぶ</strong> - 右上のパネルから今の気持ちを選択</li>
+                    <li><strong>場所をタップ</strong> - 地図上の思い出の場所をクリック</li>
+                    <li><strong>記録する</strong> - コメントとメモを残して保存</li>
+                </ol>
+            </div>
+
+            <!-- スタートボタン -->
+            <button id="start-btn" class="start-button">
+                <span class="button-text">はじめる</span>
+                <span class="button-icon">→</span>
+            </button>
+
+            <!-- フッター -->
+            <div class="welcome-footer">
+                <p>あなたの感情の旅を、今ここから。</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // スタートボタンのクリックイベント
+        document.getElementById('start-btn').addEventListener('click', function () {
+            const welcomeScreen = document.getElementById('welcome-screen');
+
+            // フェードアウトアニメーション
+            welcomeScreen.classList.add('fade-out');
+
+            // アニメーション完了後にメインページに遷移
+            setTimeout(() => {
+                window.location.href = 'main.html';
+            }, 800);
+        });
+
+        // ページ読み込み時のフェードインアニメーション
+        window.addEventListener('load', function () {
+            const welcomeScreen = document.getElementById('welcome-screen');
+            welcomeScreen.classList.add('fade-in');
+        });
+    </script>
+</body>
+
+</html>

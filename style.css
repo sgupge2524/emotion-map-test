@@ -1,0 +1,453 @@
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .emotion-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            max-width: 250px;
+        }
+
+        .emotion-panel h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            color: #333;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .emotion-btn {
+            width: 100%;
+            margin: 8px 0;
+            padding: 12px 15px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .emotion-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .emotion-btn.selected {
+            border: 2px solid #333;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .emotion-icon {
+            font-size: 24px;
+        }
+
+        .info-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            max-width: 320px;
+        }
+
+        .info-panel h4 {
+            margin: 0 0 12px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .info-panel ol {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .status {
+            font-size: 13px;
+            color: #666;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4CAF50;
+            margin-right: 6px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* カスタム吹き出しスタイル */
+        .custom-popup {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .popup-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .popup-emoji {
+            font-size: 28px;
+        }
+
+        .popup-emotion {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .popup-place {
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .popup-tags {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 6px;
+        }
+
+        .popup-comment {
+            margin: 8px 0;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .popup-private {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+        }
+
+        .popup-user {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .popup-secret {
+            margin-top: 8px;
+            padding: 10px;
+            border-radius: 10px;
+            background: #f7f7f7;
+            font-size: 13px;
+            transition: background 0.3s, opacity 0.3s;
+        }
+
+        .popup-secret.locked {
+            opacity: 0.7;
+            border: 1px dashed #ccc;
+        }
+
+        .popup-secret.revealed {
+            background: #e8f5e9;
+            border: 1px solid #a5d6a7;
+        }
+
+        .popup-secret .secret-lock {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .popup-secret .secret-body {
+            margin: 6px 0;
+            line-height: 1.5;
+            color: #444;
+        }
+
+        .popup-secret .secret-hint {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .popup-secret.locked .secret-body {
+            display: none;
+        }
+
+        .popup-secret.revealed .secret-lock {
+            display: none;
+        }
+
+        .left-panels {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+            max-width: 260px;
+        }
+
+        .legend {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .legend h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px 0;
+            font-size: 13px;
+        }
+
+        .legend-count {
+            margin-left: auto;
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+
+        /* フィルターパネル */
+        .filter-panel {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 13px;
+        }
+
+        .filter-panel h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .filter-group {
+            margin-bottom: 8px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 4px;
+            color: #555;
+        }
+
+        .filter-panel select {
+            width: 100%;
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 13px;
+        }
+
+        /* モーダル */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px 20px 16px;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 8px;
+        }
+
+        .modal-header-emoji {
+            font-size: 28px;
+        }
+
+        .modal-header-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .modal-body label {
+            display: block;
+            font-size: 13px;
+            color: #555;
+            margin-top: 10px;
+            margin-bottom: 4px;
+        }
+
+        .modal-body input,
+        .modal-body select,
+        .modal-body textarea {
+            width: 100%;
+            padding: 6px 8px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 13px;
+        }
+
+        .modal-body textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .btn {
+            padding: 7px 14px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #555;
+        }
+
+        .btn-submit {
+            background: #333;
+            color: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* モバイル対応 */
+        @media (max-width: 768px) {
+            .emotion-panel,
+            .info-panel {
+                max-width: calc(100vw - 40px);
+            }
+
+            .emotion-panel {
+                top: 10px;
+                right: 10px;
+            }
+
+            .info-panel {
+                bottom: 10px;
+                left: 10px;
+            }
+
+            .left-panels {
+                top: 10px;
+                left: 10px;
+                max-width: calc(100vw - 40px);
+            }
+        }
+
+        #search-bar {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1500;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            display: flex;
+            gap: 8px;
+        }
+
+        #search-input {
+            width: 220px;
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        #search-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            background: #333;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #locate-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+            color: #333;
+            cursor: pointer;
+            font-size: 14px;
+        }

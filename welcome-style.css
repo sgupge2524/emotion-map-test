@@ -1,0 +1,344 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+/* ウェルカムスクリーン */
+.welcome-screen {
+    min-height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #014106 0%, #308335 50%, #91c8a0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.welcome-screen.fade-in {
+    opacity: 1;
+}
+
+.welcome-screen.fade-out {
+    opacity: 0;
+}
+
+/* コンテンツコンテナ */
+.welcome-content {
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    animation: slideUp 1s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* アプリアイコン */
+.app-icon {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.icon-circle {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.emoji-rotate {
+    font-size: 36px;
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
+
+/* タイトル */
+.app-title {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    letter-spacing: 2px;
+}
+
+.app-subtitle {
+    font-size: 18px;
+    margin-bottom: 40px;
+    opacity: 0.95;
+    font-weight: 400;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 説明セクション */
+.description {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.description-text {
+    font-size: 16px;
+    line-height: 1.8;
+    opacity: 0.95;
+}
+
+/* 特徴カード */
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 35px;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.feature-text {
+    text-align: left;
+    flex: 1;
+}
+
+.feature-text strong {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.feature-text small {
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+/* 使い方セクション */
+.how-to {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.how-to h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.steps {
+    text-align: left;
+    padding-left: 24px;
+    font-size: 15px;
+    line-height: 2;
+}
+
+.steps li {
+    margin-bottom: 8px;
+}
+
+.steps strong {
+    font-weight: 600;
+    color: #fff;
+}
+
+/* スタートボタン */
+.start-button {
+    background: white;
+    color: #033e05;
+    border: none;
+    border-radius: 50px;
+    padding: 18px 48px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+}
+
+.start-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
+}
+
+.start-button:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.button-text {
+    font-size: 20px;
+}
+
+.button-icon {
+    font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+.start-button:hover .button-icon {
+    transform: translateX(5px);
+}
+
+/* フッター */
+.welcome-footer {
+    margin-top: 20px;
+    opacity: 0.8;
+}
+
+.welcome-footer p {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .app-title {
+        font-size: 36px;
+    }
+
+    .app-subtitle {
+        font-size: 16px;
+    }
+
+    .icon-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .emoji-rotate {
+        font-size: 28px;
+    }
+
+    .description-text {
+        font-size: 15px;
+    }
+
+    .feature-card {
+        padding: 14px 16px;
+    }
+
+    .feature-icon {
+        font-size: 28px;
+    }
+
+    .feature-text strong {
+        font-size: 15px;
+    }
+
+    .feature-text small {
+        font-size: 12px;
+    }
+
+    .start-button {
+        padding: 16px 40px;
+        font-size: 18px;
+    }
+
+    .button-text {
+        font-size: 18px;
+    }
+
+    .steps {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-content {
+        padding: 10px;
+    }
+
+    .app-title {
+        font-size: 32px;
+    }
+
+    .app-subtitle {
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    .description {
+        padding: 20px;
+        margin-bottom: 24px;
+    }
+
+    .how-to {
+        padding: 20px;
+        margin-bottom: 28px;
+    }
+
+    .features {
+        gap: 10px;
+        margin-bottom: 28px;
+    }
+
+    .start-button {
+        width: 100%;
+        justify-content: center;
+        padding: 16px 32px;
+    }
+}
