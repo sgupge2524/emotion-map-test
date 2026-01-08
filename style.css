@@ -790,6 +790,33 @@ select {
     font-size: 16px !important;
 }
 
+/* 検索バー下の感情フィルター */
+#emotion-filter-bar {
+    display: flex;
+    gap: 8px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.95);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.emotion-filter-btn {
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 16px; /* ← iPhoneズーム防止 */
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.emotion-filter-btn.active {
+    background: #333;
+    color: #fff;
+    border-color: #333;
+}
+
+
 
 
 
