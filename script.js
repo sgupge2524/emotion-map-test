@@ -22,6 +22,7 @@ console.log('Firebase初期化完了。Firestoreに接続します。');
 
 // --- グローバル変数 ---
 let map;
+let emotionFilterValue = 'all';
 let selectedEmotion = null;
 let markers = [];
 let emotionCounts = {};
@@ -414,42 +415,35 @@ function setupFilterControls() {
 }
 
 function applyFilters() {
-    const emotionFilter = document.getElementById('filter-emotion').value;
-    const sceneFilter = document.getElementById('filter-scene').value;
-    const timeFilter = document.getElementById('filter-time').value;
+    const sceneFilter = document.getElementById('filter-scene')?.value || 'all';
+    const timeFilter = document.getElementById('filter-time')?.value || 'all';
 
     markers.forEach(({ marker, data }) => {
         let visible = true;
 
-        if (emotionFilter !== 'all' && data.emotion !== emotionFilter) {
+        // 🔽 emotion（検索バー下の新フィルター）
+        if (emotionFilterValue !== 'all' && data.emotion !== emotionFilterValue) {
             visible = false;
         }
 
+        // scene
         if (sceneFilter !== 'all') {
-            const scene = data.scene || null;
-            if (!scene || scene !== sceneFilter) {
-                visible = false;
-            }
+            if (!data.scene || data.scene !== sceneFilter) visible = false;
         }
 
+        // time
         if (timeFilter !== 'all') {
-            const timeSlot = data.timeSlot || null;
-            if (!timeSlot || timeSlot !== timeFilter) {
-                visible = false;
-            }
+            if (!data.timeSlot || data.timeSlot !== timeFilter) visible = false;
         }
 
         if (visible) {
-            if (!map.hasLayer(marker)) {
-                marker.addTo(map);
-            }
+            if (!map.hasLayer(marker)) marker.addTo(map);
         } else {
-            if (map.hasLayer(marker)) {
-                map.removeLayer(marker);
-            }
+            if (map.hasLayer(marker)) map.removeLayer(marker);
         }
     });
 }
+
 
 // --- 秘密メッセージの表示制御 ---
 function updatePopupSecret(popupElement, data) {
@@ -619,6 +613,7 @@ window.addEventListener('load', function () {
     setupModalEvents();
     setupFilterControls();
     setupSearchBar();
+    setupEmotionFilterBar();
     setupGeolocationWatch();
 });
 
@@ -628,3 +623,19 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
     updateStatus('エラーが発生しました', 'error');
     return false;
 };
+
+function setupEmotionFilterBar() {
+    document.querySelectorAll('.emotion-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            emotionFilterValue = btn.dataset.filter;
+
+            document.querySelectorAll('.emotion-filter-btn')
+                .forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            applyFilters();
+        });
+    });
+}
+
+
