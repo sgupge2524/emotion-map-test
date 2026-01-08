@@ -1,6 +1,7 @@
 /* ========================================
-   感情マップ - レスポンシブ対応CSS
+   感情マップ - レスポンシブ対応CSS v2
    ズーム・画面サイズに完全対応
+   モーダルボタン押下問題を修正
 ======================================== */
 
 * {
@@ -351,7 +352,7 @@ body {
 }
 
 /* ========================================
-   モーダル
+   モーダル（ズーム対応強化版）
 ======================================== */
 .modal-overlay {
     position: fixed;
@@ -360,76 +361,109 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2000;
+    z-index: 9999; /* 最前面に確実に表示 */
     padding: 2vh 2vw;
+    overflow-y: auto; /* ズーム時のスクロール対応 */
 }
 
 .modal-content {
     background: #fff;
     border-radius: clamp(12px, 2vw, 16px);
-    padding: clamp(16px, 2.5vw, 20px);
-    max-width: min(95vw, 450px);
+    padding: clamp(16px, 2.5vw, 24px);
+    max-width: min(95vw, 500px);
     width: 100%;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     max-height: 90vh;
     overflow-y: auto;
+    position: relative; /* ボタンの相対配置 */
+    margin: auto; /* 中央配置 */
 }
 
 .modal-header {
     display: flex;
     align-items: center;
-    gap: clamp(8px, 1.2vw, 10px);
-    margin-bottom: clamp(10px, 1.5vw, 12px);
+    gap: clamp(8px, 1.2vw, 12px);
+    margin-bottom: clamp(10px, 1.5vw, 14px);
     border-bottom: 2px solid #f0f0f0;
-    padding-bottom: clamp(6px, 1vw, 8px);
+    padding-bottom: clamp(6px, 1vw, 10px);
 }
 
 .modal-header-emoji {
-    font-size: clamp(24px, 3.5vw, 28px);
+    font-size: clamp(24px, 3.5vw, 32px);
+    flex-shrink: 0;
 }
 
 .modal-header-title {
-    font-size: clamp(14px, 2vw, 16px);
+    font-size: clamp(14px, 2vw, 18px);
     font-weight: bold;
+    line-height: 1.3;
+}
+
+.modal-body {
+    margin-bottom: clamp(12px, 2vw, 16px);
 }
 
 .modal-body label {
     display: block;
-    font-size: clamp(11px, 1.4vw, 13px);
+    font-size: clamp(12px, 1.5vw, 14px);
     color: #555;
-    margin-top: clamp(8px, 1.2vw, 10px);
-    margin-bottom: clamp(3px, 0.5vw, 4px);
+    margin-top: clamp(10px, 1.5vw, 12px);
+    margin-bottom: clamp(4px, 0.6vw, 6px);
+    font-weight: 500;
 }
 
 .modal-body input,
 .modal-body select,
 .modal-body textarea {
     width: 100%;
-    padding: clamp(5px, 0.8vw, 6px) clamp(6px, 1vw, 8px);
+    padding: clamp(8px, 1.2vw, 10px) clamp(10px, 1.5vw, 12px);
     border-radius: clamp(6px, 1vw, 8px);
     border: 1px solid #ddd;
-    font-size: clamp(12px, 1.5vw, 13px);
+    font-size: clamp(13px, 1.6vw, 15px);
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.modal-body input:focus,
+.modal-body select:focus,
+.modal-body textarea:focus {
+    outline: none;
+    border-color: #333;
 }
 
 .modal-body textarea {
     resize: vertical;
-    min-height: clamp(50px, 8vw, 70px);
+    min-height: clamp(60px, 10vw, 80px);
+    line-height: 1.5;
 }
 
+/* モーダルフッター（ボタンエリア） - ズーム対応強化 */
 .modal-footer {
     display: flex;
     justify-content: flex-end;
-    gap: clamp(6px, 1vw, 8px);
-    margin-top: clamp(12px, 1.8vw, 14px);
+    gap: clamp(8px, 1.5vw, 12px);
+    margin-top: clamp(16px, 2.5vw, 20px);
+    padding-top: clamp(12px, 2vw, 16px);
+    border-top: 1px solid #f0f0f0;
+    position: relative; /* z-indexの基準点 */
+    z-index: 10; /* 内部要素より前面 */
 }
 
 .btn {
-    padding: clamp(6px, 1vw, 8px) clamp(12px, 2vw, 16px);
+    padding: clamp(10px, 1.5vw, 12px) clamp(20px, 3vw, 28px);
     border-radius: 999px;
     border: none;
     cursor: pointer;
-    font-size: clamp(12px, 1.5vw, 13px);
-    font-weight: 500;
+    font-size: clamp(13px, 1.7vw, 15px);
+    font-weight: 600;
+    transition: all 0.2s;
+    position: relative; /* クリックターゲット明確化 */
+    z-index: 11; /* 確実にクリック可能に */
+    min-height: 40px; /* タップ領域確保 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
 }
 
 .btn-cancel {
@@ -437,13 +471,38 @@ body {
     color: #555;
 }
 
+.btn-cancel:hover {
+    background: #e0e0e0;
+}
+
+.btn-cancel:active {
+    background: #d0d0d0;
+    transform: scale(0.98);
+}
+
 .btn-submit {
     background: #333;
     color: #fff;
 }
 
+.btn-submit:hover {
+    background: #1a1a1a;
+}
+
+.btn-submit:active {
+    background: #000;
+    transform: scale(0.98);
+}
+
+/* ボタンが押せない問題を完全解決 */
+.btn:active,
+.btn:focus {
+    outline: 2px solid rgba(0, 0, 0, 0.2);
+    outline-offset: 2px;
+}
+
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 /* ========================================
@@ -471,6 +530,12 @@ body {
     
     .info-panel {
         max-width: 280px;
+    }
+    
+    /* モーダルのボタンサイズ調整 */
+    .btn {
+        min-height: 44px;
+        padding: 12px 24px;
     }
 }
 
@@ -522,12 +587,12 @@ body {
         background: white !important;
         border-radius: 16px 16px 0 0 !important;
         box-shadow: 0 -5px 15px rgba(0,0,0,0.1) !important;
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE/Edge */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
     
     .emotion-panel::-webkit-scrollbar {
-        display: none; /* Chrome/Safari */
+        display: none;
     }
     
     /* ボタンをコンパクトに */
@@ -564,9 +629,36 @@ body {
     }
     
     /* モーダルをスマホ最適化 */
+    .modal-overlay {
+        padding: 5vh 3vw;
+    }
+    
     .modal-content {
         max-height: 85vh;
-        padding: 16px;
+        padding: 20px 16px;
+    }
+    
+    /* スマホ用ボタン：タップしやすいサイズ */
+    .btn {
+        min-height: 48px !important;
+        padding: 12px 24px !important;
+        font-size: 15px !important;
+    }
+    
+    .modal-footer {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    /* 小画面ではボタンを縦並びに */
+    @media (max-width: 400px) {
+        .modal-footer {
+            flex-direction: column;
+        }
+        
+        .btn {
+            width: 100%;
+        }
     }
 }
 
@@ -612,6 +704,34 @@ body {
     .info-panel {
         max-height: 80vh;
     }
+    
+    /* ズーム時のモーダル調整 */
+    .modal-content {
+        max-height: 85vh;
+        padding: 18px;
+    }
+    
+    .btn {
+        min-height: 46px;
+        font-size: 14px;
+    }
+}
+
+/* 200%ズーム対応 */
+@media (min-resolution: 2dppx) {
+    .modal-overlay {
+        padding: 3vh 2vw;
+    }
+    
+    .modal-content {
+        max-height: 80vh;
+    }
+    
+    .btn {
+        min-height: 50px;
+        padding: 14px 28px;
+        font-size: 15px;
+    }
 }
 
 /* ========================================
@@ -631,5 +751,33 @@ body {
     
     .modal-content {
         max-height: 80vh;
+        padding: 16px;
+    }
+    
+    .modal-footer {
+        margin-top: 12px;
+    }
+}
+
+/* ========================================
+   アクセシビリティ強化
+======================================== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* タッチデバイス用のタップハイライト */
+@media (hover: none) and (pointer: coarse) {
+    .btn {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+        min-height: 48px;
+        min-width: 80px;
+    }
+    
+    .emotion-btn {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
     }
 }
