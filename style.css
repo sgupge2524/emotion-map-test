@@ -31,21 +31,7 @@ body {
 /* ========================================
    検索バー（画面上部中央）
 ======================================== */
-#search-bar {
-    position: fixed;
-    top: 1vh;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1500;
-    background: white;
-    padding: clamp(6px, 1vw, 10px);
-    border-radius: clamp(6px, 1.5vw, 10px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    display: flex;
-    gap: clamp(4px, 1vw, 8px);
-    max-width: 95vw;
-    flex-wrap: wrap;
-}
+
 
 #search-input {
     width: clamp(150px, 30vw, 250px);
@@ -794,10 +780,10 @@ select {
 /* 🔝 上部UIまとめ */
 #top-ui {
     position: fixed;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    z-index: 1000; /* ← 最前面 */
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    z-index: 1500; /* ← 最前面 */
 }
 
 /* 検索バー */
@@ -843,6 +829,7 @@ select {
     right: 0;
     bottom: 0;
 }
+
 
 
 
