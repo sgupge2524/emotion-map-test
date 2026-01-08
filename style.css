@@ -784,6 +784,14 @@ body {
     }
 }
 
+input,
+textarea,
+select {
+    font-size: 16px !important;
+}
+
+
+
 
 
 
