@@ -1,484 +1,511 @@
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-        }
-
-        #map {
-            height: 100vh;
-            width: 100vw;
-        }
-
-        .emotion-panel {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            max-width: 250px;
-        }
-
-        .emotion-panel h3 {
-            margin: 0 0 15px 0;
-            font-size: 18px;
-            color: #333;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-        }
-
-        .emotion-btn {
-            width: 100%;
-            margin: 8px 0;
-            padding: 12px 15px;
-            border: 2px solid transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .emotion-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .emotion-btn.selected {
-            border: 2px solid #333;
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .emotion-icon {
-            font-size: 24px;
-        }
-
-        .info-panel {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            max-width: 320px;
-        }
-
-        .info-panel h4 {
-            margin: 0 0 12px 0;
-            color: #333;
-            font-size: 16px;
-        }
-
-        .info-panel ol {
-            margin: 0 0 15px 0;
-            padding-left: 20px;
-            font-size: 14px;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .status {
-            font-size: 13px;
-            color: #666;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 6px;
-            margin-top: 10px;
-        }
-
-        .status-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #4CAF50;
-            margin-right: 6px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        /* カスタム吹き出しスタイル */
-        .custom-popup {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .popup-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .popup-emoji {
-            font-size: 28px;
-        }
-
-        .popup-emotion {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .popup-place {
-            font-weight: bold;
-            margin-bottom: 6px;
-            color: #333;
-        }
-
-        .popup-tags {
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 6px;
-        }
-
-        .popup-comment {
-            margin: 8px 0;
-            color: #555;
-            line-height: 1.5;
-        }
-
-        .popup-private {
-            margin-top: 6px;
-            font-size: 12px;
-            color: #888;
-            font-style: italic;
-        }
-
-        .popup-user {
-            font-size: 12px;
-            color: #999;
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .popup-secret {
-            margin-top: 8px;
-            padding: 10px;
-            border-radius: 10px;
-            background: #f7f7f7;
-            font-size: 13px;
-            transition: background 0.3s, opacity 0.3s;
-        }
-
-        .popup-secret.locked {
-            opacity: 0.7;
-            border: 1px dashed #ccc;
-        }
-
-        .popup-secret.revealed {
-            background: #e8f5e9;
-            border: 1px solid #a5d6a7;
-        }
-
-        .popup-secret .secret-lock {
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 6px;
-        }
-
-        .popup-secret .secret-body {
-            margin: 6px 0;
-            line-height: 1.5;
-            color: #444;
-        }
-
-        .popup-secret .secret-hint {
-            font-size: 12px;
-            color: #777;
-        }
-
-        .popup-secret.locked .secret-body {
-            display: none;
-        }
-
-        .popup-secret.revealed .secret-lock {
-            display: none;
-        }
-
-        .left-panels {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 1000;
-            max-width: 260px;
-        }
-
-        .legend {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .legend h4 {
-            margin: 0 0 10px 0;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 5px 0;
-            font-size: 13px;
-        }
-
-        .legend-count {
-            margin-left: auto;
-            background: #f0f0f0;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 11px;
-        }
-
-        /* フィルターパネル */
-        .filter-panel {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            font-size: 13px;
-        }
-
-        .filter-panel h4 {
-            margin: 0 0 8px 0;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .filter-group {
-            margin-bottom: 8px;
-        }
-
-        .filter-group label {
-            display: block;
-            margin-bottom: 4px;
-            color: #555;
-        }
-
-        .filter-panel select {
-            width: 100%;
-            padding: 6px 8px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            font-size: 13px;
-        }
-
-        /* モーダル */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.45);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        .modal-content {
-            background: #fff;
-            border-radius: 16px;
-            padding: 20px 20px 16px;
-            max-width: 420px;
-            width: 90%;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-        }
-
-        .modal-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 8px;
-        }
-
-        .modal-header-emoji {
-            font-size: 28px;
-        }
-
-        .modal-header-title {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .modal-body label {
-            display: block;
-            font-size: 13px;
-            color: #555;
-            margin-top: 10px;
-            margin-bottom: 4px;
-        }
-
-        .modal-body input,
-        .modal-body select,
-        .modal-body textarea {
-            width: 100%;
-            padding: 6px 8px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 13px;
-        }
-
-        .modal-body textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-            margin-top: 14px;
-        }
-
-        .btn {
-            padding: 7px 14px;
-            border-radius: 999px;
-            border: none;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .btn-cancel {
-            background: #f0f0f0;
-            color: #555;
-        }
-
-        .btn-submit {
-            background: #333;
-            color: #fff;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* モバイル対応 */
-        @media (max-width: 768px) {
-            .emotion-panel,
-            .info-panel {
-                max-width: calc(100vw - 40px);
-            }
-
-            .emotion-panel {
-                top: 10px;
-                right: 10px;
-            }
-
-            .info-panel {
-                bottom: 10px;
-                left: 10px;
-            }
-
-            .left-panels {
-                top: 10px;
-                left: 10px;
-                max-width: calc(100vw - 40px);
-            }
-        }
-
-        #search-bar {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1500;
-            background: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-            display: flex;
-            gap: 8px;
-        }
-
-        #search-input {
-            width: 220px;
-            padding: 6px 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        #search-btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 6px;
-            background: #333;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        #locate-btn {
-            padding: 6px 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            background: #fff;
-            color: #333;
-            cursor: pointer;
-            font-size: 14px;
-
-        }
-/* --- 不要なパネルを非表示にする --- */
-.left-panels, 
-.info-panel, 
-.emotion-panel h3,
-#filter-controls,
-.how-to-use-panel { /* 使い方パネル等のクラス名に合わせて調整 */
-    display: none !important;
+/* ========================================
+   感情マップ - レスポンシブ対応CSS
+   ズーム・画面サイズに完全対応
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* --- スマホ専用の極小・最適化レイアウト --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* 地図コンテナ */
+#map {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* ========================================
+   検索バー（画面上部中央）
+======================================== */
+#search-bar {
+    position: fixed;
+    top: 1vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1500;
+    background: white;
+    padding: clamp(6px, 1vw, 10px);
+    border-radius: clamp(6px, 1.5vw, 10px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    display: flex;
+    gap: clamp(4px, 1vw, 8px);
+    max-width: 95vw;
+    flex-wrap: wrap;
+}
+
+#search-input {
+    width: clamp(150px, 30vw, 250px);
+    padding: clamp(4px, 0.8vw, 8px) clamp(6px, 1.2vw, 12px);
+    border: 1px solid #ddd;
+    border-radius: clamp(4px, 1vw, 6px);
+    font-size: clamp(12px, 1.8vw, 14px);
+}
+
+#search-btn,
+#locate-btn {
+    padding: clamp(4px, 0.8vw, 8px) clamp(8px, 1.5vw, 14px);
+    border: none;
+    border-radius: clamp(4px, 1vw, 6px);
+    cursor: pointer;
+    font-size: clamp(11px, 1.6vw, 14px);
+    white-space: nowrap;
+}
+
+#search-btn {
+    background: #333;
+    color: white;
+}
+
+#locate-btn {
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #333;
+}
+
+/* ========================================
+   感情選択パネル（デスクトップ：右上）
+======================================== */
+.emotion-panel {
+    position: fixed;
+    top: 1vh;
+    right: 1vw;
+    background: white;
+    padding: clamp(12px, 2vw, 20px);
+    border-radius: clamp(8px, 1.5vw, 12px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-width: clamp(180px, 25vw, 280px);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.emotion-panel h3 {
+    margin: 0 0 clamp(8px, 1.5vw, 15px) 0;
+    font-size: clamp(14px, 2vw, 18px);
+    color: #333;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: clamp(6px, 1vw, 10px);
+}
+
+.emotion-btn {
+    width: 100%;
+    margin: clamp(4px, 0.8vw, 8px) 0;
+    padding: clamp(8px, 1.2vw, 12px) clamp(10px, 1.5vw, 15px);
+    border: 2px solid transparent;
+    border-radius: clamp(6px, 1vw, 8px);
+    cursor: pointer;
+    font-size: clamp(13px, 1.8vw, 15px);
+    font-weight: 500;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1vw, 10px);
+}
+
+.emotion-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.emotion-btn.selected {
+    border: 2px solid #333;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.emotion-icon {
+    font-size: clamp(20px, 3vw, 28px);
+    flex-shrink: 0;
+}
+
+/* ========================================
+   左側パネル（凡例・フィルター）
+======================================== */
+.left-panels {
+    position: fixed;
+    top: 1vh;
+    left: 1vw;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1.2vw, 12px);
+    z-index: 1000;
+    max-width: clamp(200px, 25vw, 280px);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.legend,
+.filter-panel {
+    background: white;
+    padding: clamp(10px, 1.5vw, 15px);
+    border-radius: clamp(8px, 1.5vw, 12px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.legend h4,
+.filter-panel h4 {
+    margin: 0 0 clamp(6px, 1vw, 10px) 0;
+    font-size: clamp(12px, 1.6vw, 14px);
+    color: #333;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1vw, 8px);
+    margin: clamp(3px, 0.5vw, 5px) 0;
+    font-size: clamp(11px, 1.5vw, 13px);
+}
+
+.legend-count {
+    margin-left: auto;
+    background: #f0f0f0;
+    padding: 2px clamp(6px, 1vw, 8px);
+    border-radius: 10px;
+    font-size: clamp(10px, 1.3vw, 11px);
+}
+
+/* フィルターパネル */
+.filter-group {
+    margin-bottom: clamp(6px, 1vw, 8px);
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 4px;
+    color: #555;
+    font-size: clamp(11px, 1.4vw, 13px);
+}
+
+.filter-panel select {
+    width: 100%;
+    padding: clamp(4px, 0.8vw, 6px) clamp(6px, 1vw, 8px);
+    border-radius: clamp(4px, 1vw, 6px);
+    border: 1px solid #ddd;
+    font-size: clamp(11px, 1.4vw, 13px);
+}
+
+/* ========================================
+   使い方パネル（左下）
+======================================== */
+.info-panel {
+    position: fixed;
+    bottom: 1vh;
+    left: 1vw;
+    background: white;
+    padding: clamp(12px, 2vw, 20px);
+    border-radius: clamp(8px, 1.5vw, 12px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-width: clamp(200px, 30vw, 340px);
+}
+
+.info-panel h4 {
+    margin: 0 0 clamp(8px, 1.2vw, 12px) 0;
+    color: #333;
+    font-size: clamp(13px, 1.8vw, 16px);
+}
+
+.info-panel ol {
+    margin: 0 0 clamp(10px, 1.5vw, 15px) 0;
+    padding-left: clamp(16px, 2vw, 20px);
+    font-size: clamp(11px, 1.5vw, 14px);
+    color: #555;
+    line-height: 1.6;
+}
+
+.status {
+    font-size: clamp(11px, 1.4vw, 13px);
+    color: #666;
+    padding: clamp(6px, 1vw, 10px);
+    background: #f8f9fa;
+    border-radius: clamp(4px, 1vw, 6px);
+    margin-top: clamp(6px, 1vw, 10px);
+}
+
+.status-indicator {
+    display: inline-block;
+    width: clamp(6px, 1vw, 8px);
+    height: clamp(6px, 1vw, 8px);
+    border-radius: 50%;
+    background: #4CAF50;
+    margin-right: clamp(4px, 0.8vw, 6px);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* ========================================
+   カスタムポップアップスタイル
+======================================== */
+.custom-popup {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: clamp(12px, 1.5vw, 14px);
+}
+
+.popup-header {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1vw, 10px);
+    margin-bottom: clamp(6px, 1vw, 10px);
+    padding-bottom: clamp(4px, 0.8vw, 8px);
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.popup-emoji {
+    font-size: clamp(22px, 3vw, 28px);
+}
+
+.popup-emotion {
+    font-size: clamp(13px, 1.8vw, 16px);
+    font-weight: bold;
+    color: #333;
+}
+
+.popup-place {
+    font-weight: bold;
+    margin-bottom: clamp(4px, 0.8vw, 6px);
+    color: #333;
+    font-size: clamp(12px, 1.6vw, 14px);
+}
+
+.popup-tags {
+    font-size: clamp(10px, 1.3vw, 12px);
+    color: #777;
+    margin-bottom: clamp(4px, 0.8vw, 6px);
+}
+
+.popup-comment {
+    margin: clamp(6px, 1vw, 8px) 0;
+    color: #555;
+    line-height: 1.5;
+    font-size: clamp(11px, 1.4vw, 13px);
+}
+
+.popup-user {
+    font-size: clamp(10px, 1.3vw, 12px);
+    color: #999;
+    margin-top: clamp(6px, 1vw, 8px);
+    padding-top: clamp(6px, 1vw, 8px);
+    border-top: 1px solid #f0f0f0;
+}
+
+/* 秘密メッセージ */
+.popup-secret {
+    margin-top: clamp(6px, 1vw, 8px);
+    padding: clamp(8px, 1.2vw, 10px);
+    border-radius: clamp(6px, 1vw, 10px);
+    background: #f7f7f7;
+    font-size: clamp(11px, 1.4vw, 13px);
+    transition: background 0.3s, opacity 0.3s;
+}
+
+.popup-secret.locked {
+    opacity: 0.7;
+    border: 1px dashed #ccc;
+}
+
+.popup-secret.revealed {
+    background: #e8f5e9;
+    border: 1px solid #a5d6a7;
+}
+
+.popup-secret .secret-lock {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: clamp(4px, 0.8vw, 6px);
+}
+
+.popup-secret .secret-body {
+    margin: clamp(4px, 0.8vw, 6px) 0;
+    line-height: 1.5;
+    color: #444;
+}
+
+.popup-secret .secret-hint {
+    font-size: clamp(10px, 1.2vw, 12px);
+    color: #777;
+}
+
+.popup-secret.locked .secret-body {
+    display: none;
+}
+
+.popup-secret.revealed .secret-lock {
+    display: none;
+}
+
+/* ========================================
+   モーダル
+======================================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 2vh 2vw;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: clamp(12px, 2vw, 16px);
+    padding: clamp(16px, 2.5vw, 20px);
+    max-width: min(95vw, 450px);
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 1.2vw, 10px);
+    margin-bottom: clamp(10px, 1.5vw, 12px);
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: clamp(6px, 1vw, 8px);
+}
+
+.modal-header-emoji {
+    font-size: clamp(24px, 3.5vw, 28px);
+}
+
+.modal-header-title {
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: bold;
+}
+
+.modal-body label {
+    display: block;
+    font-size: clamp(11px, 1.4vw, 13px);
+    color: #555;
+    margin-top: clamp(8px, 1.2vw, 10px);
+    margin-bottom: clamp(3px, 0.5vw, 4px);
+}
+
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+    width: 100%;
+    padding: clamp(5px, 0.8vw, 6px) clamp(6px, 1vw, 8px);
+    border-radius: clamp(6px, 1vw, 8px);
+    border: 1px solid #ddd;
+    font-size: clamp(12px, 1.5vw, 13px);
+}
+
+.modal-body textarea {
+    resize: vertical;
+    min-height: clamp(50px, 8vw, 70px);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: clamp(6px, 1vw, 8px);
+    margin-top: clamp(12px, 1.8vw, 14px);
+}
+
+.btn {
+    padding: clamp(6px, 1vw, 8px) clamp(12px, 2vw, 16px);
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: clamp(12px, 1.5vw, 13px);
+    font-weight: 500;
+}
+
+.btn-cancel {
+    background: #f0f0f0;
+    color: #555;
+}
+
+.btn-submit {
+    background: #333;
+    color: #fff;
+}
+
+.hidden {
+    display: none;
+}
+
+/* ========================================
+   Leaflet コントロール調整
+======================================== */
+.leaflet-control-attribution {
+    font-size: clamp(8px, 1vw, 10px) !important;
+}
+
+.leaflet-control-zoom {
+    margin-top: 8vh !important;
+}
+
+/* ========================================
+   タブレット対応（768px～1024px）
+======================================== */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .emotion-panel {
+        max-width: 220px;
+    }
+    
+    .left-panels {
+        max-width: 240px;
+    }
+    
+    .info-panel {
+        max-width: 280px;
+    }
+}
+
+/* ========================================
+   スマートフォン対応（～768px）
+======================================== */
 @media (max-width: 768px) {
-    /* 1. 検索バーをさらにスリムに */
+    /* 不要なパネルを非表示 */
+    .left-panels, 
+    .info-panel,
+    .emotion-panel h3 {
+        display: none !important;
+    }
+    
+    /* 検索バーをスリム化 */
     #search-bar {
-        top: 10px;
-        width: 85%;
-        height: 40px;
-        padding: 0 10px;
-        background: rgba(255, 255, 255, 0.95);
-        border: 1px solid #ccc;
+        top: 8px;
+        width: calc(100% - 16px);
+        padding: 6px 8px;
+        gap: 6px;
     }
-
+    
     #search-input {
-        border: none;
-        background: transparent;
+        flex: 1;
+        min-width: 120px;
+        font-size: 13px;
     }
-
-    /* 2. 感情パネルを画面最下部に「一列」で固定 */
+    
+    #search-btn,
+    #locate-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    
+    /* 感情パネルを最下部に横並び配置 */
     .emotion-panel {
         top: auto !important;
         bottom: 0 !important;
@@ -487,21 +514,27 @@
         width: 100% !important;
         max-width: none !important;
         margin: 0 !important;
-        padding: 10px 5px 25px 5px !important; /* 下側に少し余白（スマホのバー対策） */
+        padding: 10px 5px calc(10px + env(safe-area-inset-bottom)) 5px !important;
         display: flex !important;
         flex-direction: row !important;
         overflow-x: auto !important;
-        gap: 10px !important;
+        gap: 8px !important;
         background: white !important;
-        border-radius: 20px 20px 0 0 !important; /* 上だけ丸く */
+        border-radius: 16px 16px 0 0 !important;
         box-shadow: 0 -5px 15px rgba(0,0,0,0.1) !important;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
     }
-
-    /* 3. ボタンをアイコン重視のコンパクトサイズに */
+    
+    .emotion-panel::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+    
+    /* ボタンをコンパクトに */
     .emotion-btn {
-        flex: 0 0 70px !important; /* 横幅固定 */
-        height: 65px !important;
-        padding: 5px !important;
+        flex: 0 0 68px !important;
+        height: 68px !important;
+        padding: 6px !important;
         margin: 0 !important;
         display: flex !important;
         flex-direction: column !important;
@@ -509,21 +542,94 @@
         align-items: center !important;
         font-size: 11px !important;
         border-radius: 12px !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-    }
-
-    .emotion-icon {
-        font-size: 24px !important; /* 絵文字を大きく */
-        margin: 0 !important;
-    }
-
-    /* 4. 地図のズームボタンを邪魔にならない位置（左上）へ */
-    .leaflet-top.leaflet-left {
-        top: 60px !important; /* 検索バーの下 */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+        gap: 4px !important;
     }
     
-    /* 5. 地図のクレジット（右下の文字）を消してスッキリさせる（任意） */
-    .leaflet-control-attribution {
-        display: none !important;
+    .emotion-icon {
+        font-size: 26px !important;
+    }
+    
+    /* Leaflet コントロール調整 */
+    .leaflet-top.leaflet-left {
+        top: 60px !important;
+        left: 8px !important;
+    }
+    
+    .leaflet-control-zoom a {
+        width: 32px !important;
+        height: 32px !important;
+        line-height: 32px !important;
+        font-size: 18px !important;
+    }
+    
+    /* モーダルをスマホ最適化 */
+    .modal-content {
+        max-height: 85vh;
+        padding: 16px;
+    }
+}
+
+/* ========================================
+   小型スマホ対応（～480px）
+======================================== */
+@media (max-width: 480px) {
+    #search-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #search-input {
+        width: 100%;
+    }
+    
+    #search-btn,
+    #locate-btn {
+        width: 100%;
+    }
+    
+    .emotion-btn {
+        flex: 0 0 62px !important;
+        height: 62px !important;
+        font-size: 10px !important;
+    }
+    
+    .emotion-icon {
+        font-size: 24px !important;
+    }
+}
+
+/* ========================================
+   ズーム対応（ブラウザズーム150%～200%）
+======================================== */
+@media (min-resolution: 1.5dppx) {
+    body {
+        font-size: 14px;
+    }
+    
+    .emotion-panel,
+    .left-panels,
+    .info-panel {
+        max-height: 80vh;
+    }
+}
+
+/* ========================================
+   横向き（ランドスケープ）対応
+======================================== */
+@media (max-height: 600px) and (orientation: landscape) {
+    .emotion-panel,
+    .left-panels {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    
+    .info-panel {
+        font-size: 11px;
+        padding: 10px;
+    }
+    
+    .modal-content {
+        max-height: 80vh;
     }
 }
