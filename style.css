@@ -734,28 +734,7 @@ body {
     }
 }
 
-/* すべてのUIパネル共通 */
-.emotion-panel,
-.left-panels,
-.legend,
-.filter-panel,
-.info-panel,
-#search-bar,
-.modal-content {
-    pointer-events: auto;           /* 確実にUI側でイベントを受ける */
-    overscroll-behavior: contain;   /* スクロールの伝播を遮断 */
-    touch-action: pan-y;            /* 縦スクロールのみ許可（地図操作防止） */
-}
 
-.modal-overlay {
-    pointer-events: auto;
-    overscroll-behavior: contain;
-}
-
-/* 地図側はそのまま */
-#map {
-    touch-action: none; /* パネル外でのみ操作される */
-}
 
 /* ========================================
    横向き（ランドスケープ）対応
@@ -803,5 +782,28 @@ body {
     .emotion-btn {
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
     }
+}
+
+/* すべてのUIパネル共通 */
+.emotion-panel,
+.left-panels,
+.legend,
+.filter-panel,
+.info-panel,
+#search-bar,
+.modal-content {
+    pointer-events: auto;           /* 確実にUI側でイベントを受ける */
+    overscroll-behavior: contain;   /* スクロールの伝播を遮断 */
+    touch-action: pan-y;            /* 縦スクロールのみ許可（地図操作防止） */
+}
+
+.modal-overlay {
+    pointer-events: auto;
+    overscroll-behavior: contain;
+}
+
+/* 地図側はそのまま */
+#map {
+    touch-action: none; /* パネル外でのみ操作される */
 }
 
