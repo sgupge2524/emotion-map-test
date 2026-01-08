@@ -807,3 +807,8 @@ body {
     touch-action: none; /* パネル外でのみ操作される */
 }
 
+#search-input {
+    font-size: 16px !important; /* iOS自動ズーム防止の最小サイズ */
+}
+
+
