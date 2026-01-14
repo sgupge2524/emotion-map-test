@@ -140,6 +140,12 @@
             </div>
             <form id="entry-form">
                 <div class="modal-body">
+
+                    <label for="modal-publicComment">ひとこと（遠くでも見える）</label>
+                    <textarea id="modal-publicComment" placeholder="いまの感じをひとこと（例：風が吹いてる、虫が鳴いてる、息が深くなる）文字数20文字以内" required></textarea>
+
+                    <label for="modal-privateNote">秘密のメモ 🔐 <br>（ユーザーが半径500m以内に入るとメモが公開されます）</label>
+                    <textarea id="modal-privateNote" placeholder="ここで何するとよかった？（例：ベンチで本を読む、風を感じる、なんだか落ち着いた）"></textarea>
                     <label for="modal-place">場所の名前（例：〇〇公園のベンチ）</label>
                     <input id="modal-place" type="text" placeholder="あとから見返したときに、自分が思い出せる名前でOK">
 
@@ -163,11 +169,7 @@
                         <option value="midnight">深夜</option>
                     </select>
 
-                    <label for="modal-publicComment">みんなに共有するひとこと（公開）</label>
-                    <textarea id="modal-publicComment" placeholder="この場所でどんな体験をしましたか？" required></textarea>
-
-                    <label for="modal-privateNote">秘密のメモ 🔐 <br>（ユーザーが半径500m以内に入るとメモが公開されます）</label>
-                    <textarea id="modal-privateNote" placeholder="今の自分にタイトルをつけると？どんな気づきがあった？（空白でもOK）"></textarea>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-cancel" id="modal-cancel">キャンセル</button>
@@ -189,4 +191,5 @@
 
 
 </html>
+
 
